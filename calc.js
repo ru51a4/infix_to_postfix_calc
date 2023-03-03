@@ -1,4 +1,4 @@
-class InfixToPosfixCalc {
+class InfixToPostfixCalc {
     static lex(str) {
         let res = [];
         let t = '';
@@ -117,10 +117,10 @@ class InfixToPosfixCalc {
         return stack[0];
     }
     static calc(str) {
-        return InfixToPosfixCalc.eval(InfixToPosfixCalc.convert(InfixToPosfixCalc.lex(str)));
+        return InfixToPostfixCalc.eval(InfixToPostfixCalc.convert(InfixToPostfixCalc.lex(str)));
     }
 
 }
 
 let kek = "(7)-(0)+(4)"
-console.log(InfixToPosfixCalc.calc(kek));
+console.log(InfixToPostfixCalc.calc(kek));
