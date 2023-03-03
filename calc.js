@@ -1,4 +1,4 @@
-class InfixCalc {
+class InfixToPofixCalc {
     static lex(str) {
         let res = [];
         let t = '';
