@@ -1,4 +1,4 @@
-class InfixToPofixCalc {
+class InfixToPosfixCalc {
     static lex(str) {
         let res = [];
         let t = '';
@@ -30,18 +30,18 @@ class InfixToPofixCalc {
         }
         return res;
     }
-    static convert(kek) {
+    static convert(arr) {
         let stack = [];
         let stackOp = [];
         let op1 = ["+", "-"];
         let op2 = ["*", "/"];
-        while (kek.length) {
-            let c = kek.shift();
+        while (arr.length) {
+            let c = arr.shift();
             if (!stackOp.length && (op1.includes(c) || op2.includes(c))) {
                 stackOp.push(c);
                 continue;
             }
-            let cc = stackOp[stackOp.length - 1];
+            let lastOp = stackOp[stackOp.length - 1];
             if (c == "(") {
                 stackOp.push(c)
             }
@@ -53,20 +53,20 @@ class InfixToPofixCalc {
                 }
             }
             else if (op1.includes(c)) {
-                if (op1.includes(cc)) {
+                if (op1.includes(lastOp)) {
                     stack.push(stackOp.pop())
                     stackOp.push(c);
                 }
-                if (op2.includes(cc)) {
+                if (op2.includes(lastOp)) {
                     stack.push(stackOp.pop())
                     stackOp.push(c);
                 }
-                if (cc == "(") {
+                if (lastOp == "(") {
                     stackOp.push(c)
                 }
             }
             else if (op2.includes(c)) {
-                if (op1.includes(cc)) {
+                if (op1.includes(lastOp)) {
                     /*
                     Читаем "*"  
                     Последний символ в стеке операций (+) имеет приоритет ниже, чем текущий знак (*). 
@@ -74,11 +74,11 @@ class InfixToPofixCalc {
                     */
                     stackOp.push(c);
                 }
-                if (op2.includes(cc)) {
+                if (op2.includes(lastOp)) {
                     stack.push(stackOp.pop())
                     stackOp.push(c);
                 }
-                if (cc == "(") {
+                if (lastOp == "(") {
                     stackOp.push(c)
                 }
             } else {
@@ -107,7 +107,7 @@ class InfixToPofixCalc {
                 let n1 = Number(stack.pop());
                 stack.push(n1 / n2);
             } else if (c == "*") {
-                let n2 = Number(stack.pop());
+                let n2 = Number(stack.pop()); 
                 let n1 = Number(stack.pop());
                 stack.push(n1 * n2);
             } else {
@@ -117,10 +117,10 @@ class InfixToPofixCalc {
         return stack[0];
     }
     static calc(str) {
-        return InfixCalc.eval(InfixCalc.convert(InfixCalc.lex(str)));
+        return InfixToPosfixCalc.eval(InfixToPosfixCalc.convert(InfixToPosfixCalc.lex(str)));
     }
 
 }
 
 let kek = "(7)-(0)+(4)"
-console.log(InfixCalc.calc(kek));
+console.log(InfixToPosfixCalc.calc(kek));
